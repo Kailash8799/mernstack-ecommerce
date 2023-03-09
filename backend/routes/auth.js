@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require("../models/User");
 var CryptoJS = require("crypto-js");
 var jwt = require('jsonwebtoken');
+const Authuser = require("../middleware/authuser");
 const AES_SECRET="aessecretforkailashhelo"
 const JWT_SECRET="kailash8799rajputhello"
 
@@ -83,5 +84,9 @@ router.post("/signup", async (req, res) => {
   res.status(400).json({ success: false, message: "Some error acccured!" });
 }
 });
+
+router.post("/getuser",Authuser,async(req,res)=>{
+    
+})
 
 module.exports = router;
