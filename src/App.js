@@ -11,6 +11,8 @@ import Contact from './compotents/Contact';
 import { useEffect,useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Mens from './compotents/Mens';
+import Womens from './compotents/Womens';
+import Checkout from './compotents/Checkout';
 
 function App() {
   const history = useHistory()
@@ -31,6 +33,8 @@ function App() {
         <Route exact path='/signup' render={()=><Signup/>}/>
         <Route exact path='/forgot' render={()=><Forgot/>}/>
         <Route exact path='/mens' render={()=><Mens/>}/>
+        <Route exact path='/womens' render={()=><Womens/>}/>
+        <Route exact path='/checkout' render={()=><Checkout/>}/>
         <Route exact path='/product/:slug' render={()=><Product/>}/>
         <Redirect to="/" />
       </Switch>

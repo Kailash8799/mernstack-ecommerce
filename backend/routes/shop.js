@@ -5,18 +5,17 @@ const Product = require('../models/Product');
 router.post("/product",async(req,res)=>{
   if(req.method === "POST"){
     let data = await Product.findOne({slug:req.body.slug})
-    let variants = await Product.find({ title: data.title, category: data.category });
+    let variants = await Product.find({ title: data.title, category: data.category,gender: data.gender});
     let colorsizeSlug = {};
     for (let item of variants) {
       if (Object.keys(colorsizeSlug).includes(item.color)) {
-        colorsizeSlug[item.color][item.size] = { slug: item.slug };
+        colorsizeSlug[item.color][item.size] = { slug: item.slug,img:item.image };
       }
       else {
         colorsizeSlug[item.color] = {}
-        colorsizeSlug[item.color][item.size] = { slug: item.slug }
+        colorsizeSlug[item.color][item.size] = { slug: item.slug,img:item.image }
       }
     }
-    console.log(colorsizeSlug);
     res.status(200).json({data:data,colorsizeSlug:colorsizeSlug})
   }
   else{
@@ -24,8 +23,9 @@ router.post("/product",async(req,res)=>{
   }
 })
 
-router.get("/allproduct",async(req,res)=>{
-  let data = await Product.find()
+router.post("/allproduct",async(req,res)=>{
+  let gen = req.body.gender
+  let data = await Product.find({gender:gen})
   res.status(200).json({data:data})
 })
 module.exports = router

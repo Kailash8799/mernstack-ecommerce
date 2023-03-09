@@ -15,6 +15,32 @@ export const selectedProducts = (product)=>{
 export const resetProducts = ()=>{
     return{
         type:ActionType.REMOVE_SELECTED_PRODUCT,
-        payload:[]
+    }
+}
+
+export const addTocart = (product)=>{
+    return{
+        type:ActionType.ADD_TO_CART,
+        payload:product
+    }
+}
+export const removeFromcart = ()=>{
+    return{
+        type:ActionType.REMOVE_FROM_CART
+    }
+}
+
+export const incrementCartItem = (slug,price,title,size,color)=>{
+    const product = {slug,price,title,size,color}
+    return{
+        type:ActionType.ADD_TO_CART,
+        payload:product
+    }
+}
+export const decrementCartItem = (slug)=>{
+    const product = {slug}
+    return{
+        type:ActionType.DEC_ITEM_IN_CART,
+        payload:product
     }
 }

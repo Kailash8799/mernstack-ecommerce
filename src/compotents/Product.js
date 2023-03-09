@@ -3,15 +3,26 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { useDispatch,useSelector } from "react-redux";
+import { selectedProducts,resetProducts,addTocart } from "../redux/actions/productAction";
+import Loader from "./Loader";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const url = "http://localhost:5000/api/shop/product";
 
 const Product = () => {
+  const product = useSelector((state)=>state.product)
+  const dispatch = useDispatch()
   const [data, setdata] = useState();
+  console.log(data);
+  const [loader, setloader] = useState(false)
   const { slug } = useParams();
   useEffect(() => {
+   
     (async function () {
       try {
+        setloader(true)
         const response = await fetch(url, {
           method: "POST",
           headers: {
@@ -22,29 +33,60 @@ const Product = () => {
           }),
         });
         const data = await response.json();
-        setdata(data.data);
+        dispatch(selectedProducts(data.data))
+        setdata(data.colorsizeSlug);
+        setloader(false)
       } catch (error) {
+        setloader(false)
         console.log(error);
       }
     })();
-  }, [slug]);
+    return ()=>{
+      dispatch(resetProducts())
+    }
+  }, [dispatch, slug]);
 
+  const senddata = ()=>{
+    toast.success("Items added to cart", {
+      position: "top-left",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
+    dispatch(addTocart(product))
+  }
   return (
     <>
-      <section className="overflow-hidden text-gray-600 body-font">
+     <ToastContainer
+            position="top-left"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="colored"
+          />
+      {!loader && <section className="overflow-hidden text-gray-600 body-font">
         <div className="container px-5 py-24 mx-auto">
           <div className="flex flex-wrap mx-auto lg:w-4/5">
             <img
               alt="ecommerce"
               className="object-cover object-center w-full h-64 rounded lg:w-1/2 lg:h-auto"
-              src="https://dummyimage.com/400x400"
+              src={product && product.image}
             />
             <div className="w-full mt-6 lg:w-1/2 lg:pl-10 lg:py-6 lg:mt-0">
               <h2 className="text-sm tracking-widest text-gray-500 title-font">
-                {data && data.category}
+                {product && product.category}
               </h2>
               <h1 className="mb-1 text-3xl font-medium text-gray-900 title-font">
-              {data && data.title}
+              {product && product.title}
               </h1>
               <div className="flex mb-4">
                 <span className="flex items-center">
@@ -145,17 +187,17 @@ const Product = () => {
                 </span>
               </div>
               <p className="leading-relaxed">
-                {data && data.desc}
+                {product && product.desc}
               </p>
               <div className="flex items-center pb-5 mt-6 mb-5 border-b-2 border-gray-100">
                 <div className="flex">
-                  <span className="mr-3">{data && data.color}</span>
+                  {/* <span className="mr-3">{data && Object.keys(data)}</span> */}
                   <button className="w-6 h-6 border-2 border-gray-300 rounded-full focus:outline-none"></button>
                   <button className="w-6 h-6 ml-1 bg-gray-700 border-2 border-gray-300 rounded-full focus:outline-none"></button>
                   <button className="w-6 h-6 ml-1 bg-indigo-500 border-2 border-gray-300 rounded-full focus:outline-none"></button>
                 </div>
                 <div className="flex items-center ml-6">
-                  <span className="mr-3">{data && data.size}</span>
+                  <span className="mr-3">{product && product.size}</span>
                   <div className="relative">
                     <select className="py-2 pl-3 pr-10 text-base border border-gray-300 rounded appearance-none focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500">
                       <option>SM</option>
@@ -179,14 +221,14 @@ const Product = () => {
                   </div>
                 </div>
               </div>
-              <div className="flex">
-                <span className="text-2xl font-medium text-gray-900 title-font">
-                ₹{data && data.price}
-                </span>
-                <button className="flex px-6 py-2 ml-auto text-white bg-indigo-500 border-0 rounded focus:outline-none hover:bg-indigo-600">
+              <div className="flex items-center">
+                <p className="text-2xl font-medium text-gray-900 title-font">
+                ₹{product && product.price}
+                </p>
+                <button className="flex px-6 py-2 mx-3 text-white bg-indigo-500 border-0 rounded focus:outline-none hover:bg-indigo-600">
                   Buy Now
                 </button>
-                <button className="flex px-6 py-2 ml-auto text-white bg-indigo-500 border-0 rounded focus:outline-none hover:bg-indigo-600">
+                <button onClick={senddata} className="flex px-6 py-2 text-white bg-indigo-500 border-0 rounded focus:outline-none hover:bg-indigo-600">
                   Add to Cart
                 </button>
                 
@@ -194,7 +236,8 @@ const Product = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section>}
+      {loader && <Loader />}
     </>
   );
 };

@@ -11,6 +11,7 @@ ConnectDb()
 
 app.use("/api/auth",require("./routes/auth"))
 app.use("/api/shop",require("./routes/shop"))
+app.use("/api/order",require("./routes/order"))
 
 app.listen(PORT,()=>{
     console.log(`app start in : http://localhost:${PORT}`);
