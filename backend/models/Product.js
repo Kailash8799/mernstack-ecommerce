@@ -26,7 +26,7 @@ const ProductSchema = mongoose.Schema({
         required:true
     },
     price:{
-        type:String,
+        type:Number,
         required:true
     },
     discount:{
@@ -40,7 +40,7 @@ const ProductSchema = mongoose.Schema({
         required:true
     },
     image:{
-        type:String,
+        type:Object,
         required:true
     },
     gender:{

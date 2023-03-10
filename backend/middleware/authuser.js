@@ -4,7 +4,7 @@ const User = require("../models/User")
 
 async function Authuser(req, res, next) {
     try {
-        const token = localStorage.getItem("logintoken");
+        const token = req.body.token
         if (!token) {
             return res.status(401).json({
                 success:false,
@@ -14,7 +14,10 @@ async function Authuser(req, res, next) {
         const decode = jwt.verify(token, JWT_SECRET);
         let ur = await User.findOne({email:decode.email})
         if(ur){
-        next()
+            ur.password = ""
+            ur._id = null
+            req.userdata = ur;
+            next()
         }
         else{
             return res.status(401).json({

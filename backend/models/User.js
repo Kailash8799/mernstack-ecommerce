@@ -23,7 +23,12 @@ const UserSchema = mongoose.Schema({
         required:true
     },
     address:{
-        type:String
+        type:String,
+        default:""
+    },
+    pincode:{
+        type:Number,
+        default:""
     }
 }, { timestamps: true })
 

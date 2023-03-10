@@ -32,7 +32,7 @@ const pages = [
   ["Womens", "womens"],
   ["Contact", "contact"],
 ];
-const settings = ["Profile", "Account", "Dashboard"];
+const settings = [["Profile","userprofile"], ["Account",""], ["Dashboard",""]];
 
 function Navbar({ loginp }) {
   const cart = useSelector((state) => state.cart.cartitem);
@@ -252,9 +252,6 @@ function Navbar({ loginp }) {
                   <Button variant="outlined">
                     <Link to={"/login"}>Login</Link>
                   </Button>
-                  <Button variant="outlined" style={{ marginLeft: "5px" }}>
-                    <Link to={"/signup"}>Signup</Link>
-                  </Button>
                 </div>
               )}
               <Menu
@@ -273,11 +270,14 @@ function Navbar({ loginp }) {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-                {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting}</Typography>
+                {settings.map((setting, ind) => (
+                  <MenuItem key={ind} onClick={handleCloseUserMenu}>
+                    <Link to={`/${setting[1].toLowerCase()}`}>
+                    <Typography textAlign="center">{setting[0]}</Typography>
+                    </Link>
                   </MenuItem>
                 ))}
+                 
                 <MenuItem key={"logout"} onClick={LogoutFun}>
                   <Typography textAlign="center">Logout</Typography>
                 </MenuItem>

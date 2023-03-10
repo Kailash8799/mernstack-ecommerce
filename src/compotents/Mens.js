@@ -33,38 +33,40 @@ const Mens = () => {
       {products && (
         <div>
           <section style={{ backgroundColor: "#eee" }}>
-            <div class="text-center container py-5">
-              <h4 class="mt-4 mb-5">
-                <strong>Bestsellers</strong>
-              </h4>
-              <div class="row mx-4">
+            <div className="container py-5 text-center">
+              <h1 className="mt-0 mb-4">
+                <strong className="text-2xl">
+                Explore Our Tshirts Collection
+                </strong>
+              </h1>
+              <div className="mx-2 md:mx-4 row">
                 {Object.keys(products).map((data) => {
                   return (
-                    <div key={data} class="col-lg-3 col-md-6 mb-4">
+                    <div key={data} className="mb-4 col-lg-3 col-md-6">
                           <Link  to={`/product/${products[data].slug}`}>
-                          <div class="card">
+                          <div className="card">
                             <div
-                              class="bg-image hover-zoom ripple"
+                              className="bg-image hover-zoom ripple"
                               data-mdb-ripple-color="light"
                             >
                               <img
-                                src={products[data].image}
-                                class="w-72 h-72 max-h-72 mx-auto"
+                                src={products[data].image[0]}
+                                className="object-contain mx-auto w-72 h-72 max-h-72"
                                 alt=""
                               />
                               <Link to={`/product/${products[data].slug}`}>
-                                <div class="mask">
-                                  <div class="d-flex justify-content-start align-items-end h-100">
+                                <div className="mask">
+                                  <div className="d-flex justify-content-start align-items-end h-100">
                                     <h5>
-                                      <span class="badge bg-danger ms-2">
+                                      <span className="badge bg-danger ms-2">
                                         {products[data].discount * 100}%
                                       </span>
                                     </h5>
                                   </div>
                                 </div>
-                                <div class="hover-overlay">
+                                <div className="hover-overlay">
                                   <div
-                                    class="mask"
+                                    className="mask"
                                     style={{
                                       backgroundColor:
                                         "rgba(251, 251, 251, 0.15)",
@@ -73,16 +75,16 @@ const Mens = () => {
                                 </div>
                               </Link>
                             </div>
-                            <div class="card-body">
-                              <Link to={`/product/${products[data].slug}`} class="text-reset">
-                                <h5 class="card-title mb-3">{products[data].title}</h5>
+                            <div className="card-body">
+                              <Link to={`/product/${products[data].slug}`} className="text-reset">
+                                <h5 className="mb-3 card-title">{products[data].title}</h5>
                               </Link>
-                              <Link to={`/product/${products[data].slug}`} class="text-reset">
+                              <Link to={`/product/${products[data].slug}`} className="text-reset">
                                 <p>{products[data].category}</p>
                               </Link>
-                              <h6 class="mb-3">
-                                <s>₹{products[data].price}</s>
-                                <strong class="ms-2 text-danger">₹{products[data].price - (products[data].price * products[data].discount)}</strong>
+                              <h6 className="mb-3">
+                                <s>₹{products[data].price + (products[data].price * products[data].discount)}</s>
+                                <strong className="ms-2 text-danger">₹{products[data].price}</strong>
                               </h6>
                             </div>
                           </div>

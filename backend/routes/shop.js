@@ -28,4 +28,11 @@ router.post("/allproduct",async(req,res)=>{
   let data = await Product.find({gender:gen})
   res.status(200).json({data:data})
 })
+
+router.post("/addproduct",async(req,res)=>{
+  // let {slug,title,desc,category,color,size,price,discount,availableQty,image,gender} = req.body
+  let newprod = new Product(req.body)
+  await newprod.save()
+  res.status(200).json({success:true, message:"Product added successfully"})
+})
 module.exports = router

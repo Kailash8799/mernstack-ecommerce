@@ -13,6 +13,7 @@ import { useHistory } from 'react-router-dom';
 import Mens from './compotents/Mens';
 import Womens from './compotents/Womens';
 import Checkout from './compotents/Checkout';
+import UserProfile from './compotents/UserProfile';
 
 function App() {
   const history = useHistory()
@@ -30,6 +31,7 @@ function App() {
         <Route exact path='/login' render={()=><Login/>}/>
         <Route exact path='/about' render={()=><About/>}/>
         <Route exact path='/contact' render={()=><Contact/>}/>
+        <Route exact path='/userprofile' render={()=><UserProfile/>}/>
         <Route exact path='/signup' render={()=><Signup/>}/>
         <Route exact path='/forgot' render={()=><Forgot/>}/>
         <Route exact path='/mens' render={()=><Mens/>}/>

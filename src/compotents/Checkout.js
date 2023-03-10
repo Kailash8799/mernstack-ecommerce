@@ -24,10 +24,9 @@ const Checkout = () => {
     address: "",
     pincode: "",
   });
-  const userlog = { value: "", email: "" };
   const [services, setservices] = useState({ state: "", dis: "" });
   const [pincodevalid, setpincodevalid] = useState(false);
-  const [checkval, setcheckval] = useState(true);
+  const [checkval, setcheckval] = useState(false);
   const [subtotal, setsubtotal] = useState(0);
   const handleChange = async (e) => {
     let name = e.target.name;
@@ -93,8 +92,32 @@ const Checkout = () => {
     setsubtotal(subt);
   };
 
+  const getuserdata = async()=>{
+    if(localStorage.getItem("logintoken")){
+      let token = localStorage.getItem("logintoken")
+       let res = await fetch("http://localhost:5000/api/auth/getuser", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+               token:token
+            }),
+          })
+          let userdata = await res.json();
+          if(userdata.success){
+            setuserinfo({
+              name: userdata.user.fname + " " + userdata.user.lname || "",
+              email: userdata.user.email || "",
+              phone: userdata.user.mobileno || "",
+              address: userdata.user.address || "",
+              pincode: userdata.user.pincode || "",
+            })
+          }
+  }
+}
   useEffect(() => {
-   
+    getuserdata()
     countprice();
   }, [cart]);
   const orderitems = async()=>{
@@ -109,7 +132,6 @@ const Checkout = () => {
             }),
           })
           let data = await res.json();
-          console.log(data);
           if(data.success){
             toast.success(data.message, {
                 position: "top-left",
@@ -180,18 +202,7 @@ const Checkout = () => {
             <label htmlFor="email" className="text-lg leading-7 text-gray-600">
               Email
             </label>
-            {userlog.value ? (
-              <input
-                readOnly
-                value={userlog.email}
-                onChange={handleChange}
-                type="email"
-                id="email"
-                name="email"
-                placeholder="Enter your email"
-                className="w-full px-3 py-1 text-base leading-8 text-gray-700 transition-colors duration-200 ease-in-out bg-white border border-gray-300 rounded outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-200"
-              />
-            ) : (
+           
               <input
                 value={userinfo.email}
                 onChange={handleChange}
@@ -201,7 +212,7 @@ const Checkout = () => {
                 placeholder="Enter your email"
                 className="w-full px-3 py-1 text-base leading-8 text-gray-700 transition-colors duration-200 ease-in-out bg-white border border-gray-300 rounded outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-200"
               />
-            )}
+            
           </div>
         </div>
         <div className="w-full px-2 mt-5">
@@ -357,7 +368,7 @@ const Checkout = () => {
               type="checkbox"
               value={checkval}
               className="w-4 h-4 mr-2 text-pink-600 bg-gray-100 border-gray-300 rounded focus:ring-pink-500 dark:focus:ring-pink-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-           checked />
+            />
             <div className="inline-block text-gray-800 form-check-label">
               I want to place a Cash on Delivery (COD) Order. I promise to pay
               the delivery partner on delivery

@@ -1,10 +1,10 @@
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams,useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useDispatch,useSelector } from "react-redux";
-import { selectedProducts,resetProducts,addTocart } from "../redux/actions/productAction";
+import { selectedProducts,resetProducts,addTocart, removeFromcart} from "../redux/actions/productAction";
 import Loader from "./Loader";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -12,11 +12,13 @@ import "react-toastify/dist/ReactToastify.css";
 const url = "http://localhost:5000/api/shop/product";
 
 const Product = () => {
+  const history = useHistory()
   const product = useSelector((state)=>state.product)
   const dispatch = useDispatch()
   const [data, setdata] = useState();
   console.log(data);
   const [loader, setloader] = useState(false)
+  const [imgno,setimgno] = useState(0)
   const { slug } = useParams();
   useEffect(() => {
    
@@ -46,6 +48,11 @@ const Product = () => {
     }
   }, [dispatch, slug]);
 
+  const BuyNowitem = async()=>{
+    dispatch(removeFromcart())
+    dispatch(addTocart(product))
+    history.push("/checkout")
+  }
   const senddata = ()=>{
     toast.success("Items added to cart", {
       position: "top-left",
@@ -58,6 +65,9 @@ const Product = () => {
       theme: "colored",
     });
     dispatch(addTocart(product))
+  }
+  const changeimage = (ind)=>{
+    setimgno(ind)
   }
   return (
     <>
@@ -74,14 +84,29 @@ const Product = () => {
             theme="colored"
           />
       {!loader && <section className="overflow-hidden text-gray-600 body-font">
-        <div className="container px-5 py-24 mx-auto">
-          <div className="flex flex-wrap mx-auto lg:w-4/5">
+        <div className="container py-10 md:py-24 ">
+          <div className="flex flex-wrap md:mx-5">
+            <div className="flex w-full lg:w-1/12 lg:block">
+              {/* {data && data['red']['XL'].slug}               */}
+              {product && product.image &&
+                 Array.from(product.image).map((item,ind)=>{
+                  return <div key={ind} onClick={()=>{changeimage(ind)}} className={`mx-2 my-1 shadow-2xl cursor-pointer lg:mx-0 rounded-lg ${ind === imgno ? "border-2 border-gray-800" : ""}`}>
+                   <img
+                   alt="ecommerce"
+                   className="object-contain object-center h-24 mx-auto rounded"
+                   src={ item}
+                 /></div>
+                })
+              }
+            </div>
+           <div className="w-full rounded-lg lg:w-5/12">
             <img
               alt="ecommerce"
-              className="object-cover object-center w-full h-64 rounded lg:w-1/2 lg:h-auto"
-              src={product && product.image}
+              className="object-contain object-center h-full mx-auto rounded-lg"
+              src={product && product.image && product.image[imgno]}
             />
-            <div className="w-full mt-6 lg:w-1/2 lg:pl-10 lg:py-6 lg:mt-0">
+            </div>
+            <div className="w-full mt-6 lg:w-6/12 lg:pl-10 lg:py-6 lg:mt-0">
               <h2 className="text-sm tracking-widest text-gray-500 title-font">
                 {product && product.category}
               </h2>
@@ -223,9 +248,10 @@ const Product = () => {
               </div>
               <div className="flex items-center">
                 <p className="text-2xl font-medium text-gray-900 title-font">
-                ₹{product && product.price}
+                                <s>₹{(product.price + (product.price * product.discount))}</s>
+                                <strong className="ms-2 text-danger">₹{product && product.price}</strong>
                 </p>
-                <button className="flex px-6 py-2 mx-3 text-white bg-indigo-500 border-0 rounded focus:outline-none hover:bg-indigo-600">
+                <button onClick={BuyNowitem} className="flex px-6 py-2 mx-3 text-white bg-indigo-500 border-0 rounded focus:outline-none hover:bg-indigo-600">
                   Buy Now
                 </button>
                 <button onClick={senddata} className="flex px-6 py-2 text-white bg-indigo-500 border-0 rounded focus:outline-none hover:bg-indigo-600">
