@@ -1,9 +1,11 @@
 import React from 'react'
+import { useHistory } from 'react-router-dom'
 import "../css/errorpage.css"
 
 const Errorpage = (props) => {
+  const history = useHistory()
   return (
-    <div className='ordererror'>
+    <div className='min-h-screen ordererror'>
           <div className="container">
             <div className="error">
               <p className="p">4</p>
@@ -30,7 +32,7 @@ const Errorpage = (props) => {
                   {" "}
                   {props.sug}
                 </p>
-                <button className="go-back">Go Back</button>
+                <button className="go-back" onClick={()=>{history.push("/")}}>Go Back</button>
               </div>
             </div>
           </div>

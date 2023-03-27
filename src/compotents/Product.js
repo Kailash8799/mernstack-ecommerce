@@ -8,6 +8,7 @@ import { selectedProducts,resetProducts,addTocart, removeFromcart,setallvariant,
 import Loader from "./Loader";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Errorpage from "./404page";
 
 const url = `${process.env.REACT_APP_LOCALHOST_KEY}/api/shop/product`;
 
@@ -15,11 +16,11 @@ const Product = () => {
   const history = useHistory()
   const product = useSelector((state)=>state.product)
   const allvariant = useSelector((state)=>state.fetchallvarints.allvariants)
-  
+  console.log();
   const dispatch = useDispatch()
   const [sizecolor, setsizecolor] = useState();
   // const [allvariant,setallvariant] =  useState();
-  console.log(sizecolor);
+  // console.log(sizecolor);
   const [loader, setloader] = useState(false)
   const [imgno,setimgno] = useState(0)
   const { slug } = useParams();
@@ -93,7 +94,7 @@ const Product = () => {
             theme="colored"
           />
       {!loader && <section className="overflow-hidden text-gray-600 body-font">
-        <div className="container py-10 md:py-24 ">
+       {Object.keys(product).length !==0 ? <div className="container py-10 md:py-24 ">
           <div className="flex flex-wrap md:mx-5">
             <div className="flex w-full lg:w-1/12 lg:block">
               {/* {data && data['red']['XL'].slug}               */}
@@ -277,7 +278,9 @@ const Product = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> : 
+        <Errorpage  message={"Page Not Found"}/>
+          }
       </section>}
       {loader && <Loader />}
     </>

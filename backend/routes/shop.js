@@ -5,6 +5,10 @@ const Product = require('../models/Product');
 router.post("/product",async(req,res)=>{
   if(req.method === "POST"){
     let data = await Product.findOne({slug:req.body.slug})
+    if(data === null){
+      res.status(200).json({data:{},colorsizeSlug:{}})
+      return;
+    }
     let variants = await Product.find({ title: data.title, category: data.category,gender: data.gender});
     let colorsizeSlug = {};
     for (let item of variants) {
