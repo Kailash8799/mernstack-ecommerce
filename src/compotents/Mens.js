@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setProducts } from "../redux/actions/productAction";
 import { Link } from "react-router-dom";
-const url = "http://localhost:5000/api/shop/allproduct";
+const url = `${process.env.REACT_APP_LOCALHOST_KEY}/api/shop/allproduct`;
 
 const Mens = () => {
   const products = useSelector((state) => state.allProducts.products);

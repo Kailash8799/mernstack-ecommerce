@@ -4,8 +4,8 @@ const User = require("../models/User");
 var CryptoJS = require("crypto-js");
 var jwt = require("jsonwebtoken");
 const Authuser = require("../middleware/authuser");
-const AES_SECRET = "aessecretforkailashhelo";
-const JWT_SECRET = "kailash8799rajputhello";
+const AES_SECRET = process.env.AES_SECRET
+const JWT_SECRET = process.env.JWT_SECRET
 
 router.post("/login", async (req, res) => {
   try {

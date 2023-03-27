@@ -4,19 +4,22 @@ import { useEffect } from "react";
 import { useParams,useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useDispatch,useSelector } from "react-redux";
-import { selectedProducts,resetProducts,addTocart, removeFromcart} from "../redux/actions/productAction";
+import { selectedProducts,resetProducts,addTocart, removeFromcart,setallvariant,resetallvariants} from "../redux/actions/productAction";
 import Loader from "./Loader";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const url = "http://localhost:5000/api/shop/product";
+const url = `${process.env.REACT_APP_LOCALHOST_KEY}/api/shop/product`;
 
 const Product = () => {
   const history = useHistory()
   const product = useSelector((state)=>state.product)
+  const allvariant = useSelector((state)=>state.fetchallvarints.allvariants)
+  
   const dispatch = useDispatch()
-  const [data, setdata] = useState();
-  console.log(data);
+  const [sizecolor, setsizecolor] = useState();
+  // const [allvariant,setallvariant] =  useState();
+  console.log(sizecolor);
   const [loader, setloader] = useState(false)
   const [imgno,setimgno] = useState(0)
   const { slug } = useParams();
@@ -36,7 +39,8 @@ const Product = () => {
         });
         const data = await response.json();
         dispatch(selectedProducts(data.data))
-        setdata(data.colorsizeSlug);
+        dispatch(setallvariant(data.variants))
+        setsizecolor(data.colorsizeSlug);
         setloader(false)
       } catch (error) {
         setloader(false)
@@ -45,6 +49,7 @@ const Product = () => {
     })();
     return ()=>{
       dispatch(resetProducts())
+      dispatch(resetallvariants())
     }
   }, [dispatch, slug]);
 
@@ -68,6 +73,9 @@ const Product = () => {
   }
   const changeimage = (ind)=>{
     setimgno(ind)
+  }
+  const changecolorimage = (slg)=>{
+    history.push(`/product/${slg}`)
   }
   return (
     <>
@@ -214,12 +222,19 @@ const Product = () => {
               <p className="leading-relaxed">
                 {product && product.desc}
               </p>
-              <div className="flex items-center pb-5 mt-6 mb-5 border-b-2 border-gray-100">
+              <div className="items-center pb-5 mt-6 mb-5 border-b-2 border-gray-100">
+                  <span className="ml-2">Colors : </span>
                 <div className="flex">
-                  {/* <span className="mr-3">{data && Object.keys(data)}</span> */}
-                  <button className="w-6 h-6 border-2 border-gray-300 rounded-full focus:outline-none"></button>
-                  <button className="w-6 h-6 ml-1 bg-gray-700 border-2 border-gray-300 rounded-full focus:outline-none"></button>
-                  <button className="w-6 h-6 ml-1 bg-indigo-500 border-2 border-gray-300 rounded-full focus:outline-none"></button>
+                  {allvariant &&
+                 Array.from(allvariant).map((item,ind)=>{
+                  return <div key={ind} onClick={()=>{changecolorimage(item.slug)}} className={`mx-2 my-1 shadow-2xl cursor-pointer lg:mx-0 rounded-lg ${item.slug === slug ? "border-2 border-gray-800" : ""}`}>
+                   <img
+                   alt="ecommerce"
+                   className="object-contain object-center h-24 mx-auto rounded"
+                   src={item.image[0]}
+                 /></div>
+                })
+              }
                 </div>
                 <div className="flex items-center ml-6">
                   <span className="mr-3">{product && product.size}</span>

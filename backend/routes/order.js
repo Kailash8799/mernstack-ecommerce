@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Order = require("../models/Order");
 const Product = require("../models/Product");
+const Authuser = require("../middleware/authuser")
 
 router.post("/pincode", async (req, res) => {
   if (req.method === "POST") {
@@ -59,7 +60,7 @@ router.post("/createorder", async (req, res) => {
         amount: req.body.subtotal,
       });
       await ordernew.save()
-      res.status(200).json({ success: true, message:"Your order will be placed successfully"});
+      res.status(200).json({ success: true, message:"Your order will be placed successfully",oid:orderid});
     }
     else{
         res.status(200).json({ success: false, message :"The price of some items in your cart have changed. Please try again"});
@@ -68,4 +69,17 @@ router.post("/createorder", async (req, res) => {
     res.status(500).json({ success: false, message :"Some error accured"});
   }
 });
+
+router.post("/myorders",Authuser,async(req,res)=>{
+  let email = req.userdata.email;
+  let orders = await Order.find({email})
+  res.status(200).json({success:true,orders})
+})
+
+router.post("/myordersdetails",Authuser,async(req,res)=>{
+  let email = req.userdata.email;
+  let oid = req.body.oid
+  let orders = await Order.find({email,orderId:oid})
+  res.status(200).json({success:true,orders})
+})
 module.exports = router;

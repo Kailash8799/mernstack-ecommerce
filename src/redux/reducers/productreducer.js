@@ -8,6 +8,14 @@ const INIT_STATE = {
   cartitem: JSON.parse(ca) || {}
 };
 
+const MY_ORDERS = {
+  myorder : {}
+}
+
+const initialVariant = {
+  allvariants:[]
+}
+
 export const productReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case ActionType.SET_PRODUCTS:
@@ -102,3 +110,45 @@ export const dcrTocartReducer = (state = INIT_STATE, { type, payload }) => {
       return state;
   }
 };
+
+export const myorderreducer = (state=MY_ORDERS,{type,payload})=>{
+  switch (type) {
+    case ActionType.FETCH_MY_ORDER:
+      return{
+        ...state,
+        myorder:payload
+      }
+  
+    default:
+      return state
+  }
+}
+
+export const myorderdetailreducer = (state={},{type,payload})=>{
+  switch (type) {
+    case ActionType.FETCH_MY_ORDER_DETAILS:
+      return{
+        ...state,...payload
+      }
+    case ActionType.REMOVE_FETCH_MY_ORDER_DETAILS:
+      return {}
+    default:
+      return state
+  }
+}
+
+export const allvariantreducer = (state=initialVariant,{type,payload})=>{
+  switch (type) {
+    case ActionType.SET_ALL_VARIANTS:
+      return {
+        ...state, allvariants:payload
+      }
+    case ActionType.RESET_ALL_VARIANTS:
+      return {
+        ...state, allvariants:[]
+      }
+  
+    default:
+      return state
+  }
+}

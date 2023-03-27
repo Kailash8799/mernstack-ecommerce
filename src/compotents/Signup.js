@@ -15,7 +15,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useEffect,useState } from 'react';
 import { CircularProgress } from '@mui/material';
 
-const url = "http://localhost:5000/api/auth/signup"
+const url = `${process.env.REACT_APP_LOCALHOST_KEY}/api/auth/signup`
 
 const theme = createTheme();
 

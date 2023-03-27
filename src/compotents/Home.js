@@ -55,6 +55,7 @@ const Home = ()=>{
     fontWeight: 'bold',
   }
   return (
+    <>
     <div className="App">
       <div style={{ textAlign: "center" }}>
         <div style={{
@@ -87,6 +88,8 @@ const Home = ()=>{
         </div>
       </div>
     </div>
+    
+    </>
   );
 }
 export default Home

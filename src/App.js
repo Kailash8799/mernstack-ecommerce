@@ -14,6 +14,8 @@ import Mens from './compotents/Mens';
 import Womens from './compotents/Womens';
 import Checkout from './compotents/Checkout';
 import UserProfile from './compotents/UserProfile';
+import Orderdetail from './compotents/Orderdetail';
+import Myorder from './compotents/Myorder';
 
 function App() {
   const history = useHistory()
@@ -37,6 +39,8 @@ function App() {
         <Route exact path='/mens' render={()=><Mens/>}/>
         <Route exact path='/womens' render={()=><Womens/>}/>
         <Route exact path='/checkout' render={()=><Checkout/>}/>
+        <Route exact path='/myorders' render={()=><Myorder/>}/>
+        <Route exact path='/orderdetails/:oid' render={()=><Orderdetail/>}/>
         <Route exact path='/product/:slug' render={()=><Product/>}/>
         <Redirect to="/" />
       </Switch>

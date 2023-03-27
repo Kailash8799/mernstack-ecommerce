@@ -44,3 +44,35 @@ export const decrementCartItem = (slug)=>{
         payload:product
     }
 }
+export const fetchmyorder = (order)=>{
+    return{
+        type:ActionType.FETCH_MY_ORDER,
+        payload:order
+    }
+}
+
+export const fetchmyorderdetails = (orderdetails)=>{
+    return{
+        type:ActionType.FETCH_MY_ORDER_DETAILS,
+        payload:orderdetails
+    }
+}
+
+export const remove_fetch_order_details = ()=>{
+    return{
+        type:ActionType.REMOVE_FETCH_MY_ORDER_DETAILS
+    }
+}
+
+export const setallvariant = (variants)=>{
+    return{
+        type:ActionType.SET_ALL_VARIANTS,
+        payload:variants
+    }
+}
+
+export const resetallvariants = ()=>{
+    return {
+        type:ActionType.RESET_ALL_VARIANTS
+    }
+}

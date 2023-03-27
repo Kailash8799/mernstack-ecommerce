@@ -24,7 +24,7 @@ const UserProfile = () => {
     else {
       const fun = async () => {
         try {
-          let responce = await fetch("http://localhost:5000/api/auth/getuser", {
+          let responce = await fetch(`${process.env.REACT_APP_LOCALHOST_KEY}/api/auth/getuser`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -94,7 +94,7 @@ const UserProfile = () => {
   const handleClick = async () => {
     let token = localStorage.getItem("logintoken")
     const data = { token, fname,lname, address, phone, pincode };
-    let response = await fetch(`http://localhost:5000/api/auth/updateprofile`, {
+    let response = await fetch(`${process.env.REACT_APP_LOCALHOST_KEY}/api/auth/updateprofile`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -130,7 +130,7 @@ const UserProfile = () => {
     let token = localStorage.getItem("logintoken")
     if (password.length > 4) {
       const data = {token, email, cupassword, password, cpassword }
-      let response = await fetch(`http://localhost:5000/api/auth/updatepass`, {
+      let response = await fetch(`${process.env.REACT_APP_LOCALHOST_KEY}/api/auth/updatepass`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

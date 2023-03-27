@@ -15,7 +15,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useEffect,useState } from 'react';
 import { CircularProgress } from '@mui/material';
 
-const url = "http://localhost:5000/api/auth/login"
+const url = `${process.env.REACT_APP_LOCALHOST_KEY}/api/auth/login`
 
 const Login = ()=> {
   const history = useHistory();

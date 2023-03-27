@@ -12,7 +12,7 @@ const OrderSchema = mongoose.Schema({
     amount: {type: Number, required: true},
     status: {type: String, default: 'Initiated', required: true},
     deliveryStatus: {type: String, default: 'unshipped', required: true}
-})
+},{ timestamps: true })
 
 const Order = mongoose.model("Order",OrderSchema)
 module.exports = Order

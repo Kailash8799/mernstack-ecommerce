@@ -11,9 +11,11 @@ import {
   incrementCartItem,
   removeFromcart,
 } from "../redux/actions/productAction";
-const url = "http://localhost:5000/api/order/pincode";
+import { useHistory } from "react-router-dom";
+const url = `${process.env.REACT_APP_LOCALHOST_KEY}/api/order/pincode`;
 
 const Checkout = () => {
+  const history = useHistory()
   const cart = useSelector((state) => state.cart.cartitem);
   const dispatch = useDispatch();
   const [disable, setdisable] = useState(true);
@@ -95,7 +97,7 @@ const Checkout = () => {
   const getuserdata = async()=>{
     if(localStorage.getItem("logintoken")){
       let token = localStorage.getItem("logintoken")
-       let res = await fetch("http://localhost:5000/api/auth/getuser", {
+       let res = await fetch(`${process.env.REACT_APP_LOCALHOST_KEY}/api/auth/getuser`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -122,7 +124,7 @@ const Checkout = () => {
   }, [cart]);
   const orderitems = async()=>{
     if(checkval){
-        let res = await fetch("http://localhost:5000/api/order/createorder", {
+        let res = await fetch(`${process.env.REACT_APP_LOCALHOST_KEY}/api/order/createorder`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -143,6 +145,7 @@ const Checkout = () => {
                 progress: undefined,
               });
               dispatch(removeFromcart())
+              history.push(`/orderdetails/${data.oid}`)
           }
           else{
             toast.error(data.message, {

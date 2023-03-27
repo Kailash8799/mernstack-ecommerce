@@ -32,7 +32,7 @@ const pages = [
   ["Womens", "womens"],
   ["Contact", "contact"],
 ];
-const settings = [["Profile","userprofile"], ["Account",""], ["Dashboard",""]];
+const settings = [["Profile","userprofile"], ["My Orders","myorders"], ["Dashboard",""]];
 
 function Navbar({ loginp }) {
   const cart = useSelector((state) => state.cart.cartitem);
@@ -288,7 +288,7 @@ function Navbar({ loginp }) {
       </AppBar>
       <div
         id="carti"
-        className="fixed z-50 order-first w-full min-h-screen transition-all ease-in-out bg-white shadow-2xl opacity-100 md:w-1/3 -right-full"
+        className="fixed z-50 order-first w-full min-h-screen pb-10 overflow-y-scroll transition-all ease-in-out bg-white shadow-2xl opacity-100 md:w-1/3 -right-full"
       >
           <div>
               <div className="">

@@ -16,7 +16,7 @@ router.post("/product",async(req,res)=>{
         colorsizeSlug[item.color][item.size] = { slug: item.slug,img:item.image }
       }
     }
-    res.status(200).json({data:data,colorsizeSlug:colorsizeSlug})
+    res.status(200).json({data:data,colorsizeSlug:colorsizeSlug,variants})
   }
   else{
     res.status(200).json({data:{},colorsizeSlug:{}})
