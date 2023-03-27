@@ -76,6 +76,7 @@ const Product = () => {
   }
   const changecolorimage = (slg)=>{
     history.push(`/product/${slg}`)
+    setimgno(0)
   }
   return (
     <>
