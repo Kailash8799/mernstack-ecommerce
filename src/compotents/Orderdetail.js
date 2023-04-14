@@ -7,14 +7,16 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Errorpage from "./404page";
 
-const Orderdetail = () => {
+const Orderdetail = ({setProgress}) => {
   const orderdetail = useSelector((state) => state.fetchorderdetails);
   const params = useParams();
   const oid = params.oid;
   const dispatch = useDispatch();
   const history = useHistory();
   useEffect(() => {
+    setProgress(30)
     let token = localStorage.getItem("logintoken");
+    setProgress(60)
     if (!token) {
       history.push("/");
     } else {
@@ -61,10 +63,11 @@ const Orderdetail = () => {
         }
       })();
     }
+    setProgress(100)
     return(()=>{
       dispatch(remove_fetch_order_details())
     })
-  }, [dispatch, history, oid]);
+  }, [dispatch, history, oid, setProgress]);
 
   return (
     <>

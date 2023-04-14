@@ -19,14 +19,16 @@ const url = `${process.env.REACT_APP_LOCALHOST_KEY}/api/auth/signup`
 
 const theme = createTheme();
 
-const Signup = ()=>{
+const Signup = ({setProgress})=>{
   const history = useHistory();
   const [isprogress,setprogress] = useState(false)
   useEffect(() => {
+    setProgress(30)
     if(localStorage.getItem("logintoken")){
       history.push('/', { replace: true });
     }
-  }, [history])
+    setProgress(100)
+  }, [history, setProgress])
   const handleSubmit = async(event) => {
     setprogress(true)
     event.preventDefault();

@@ -1,6 +1,13 @@
 import React from 'react'
+import { useEffect } from 'react'
 
-const Contact = ()=>{
+const Contact = ({setProgress})=>{
+  useEffect(() => {
+    setProgress(30)
+    setProgress(70)
+    setProgress(100)
+  }, [setProgress])
+  
   return (
     <div>Contact</div>
   )

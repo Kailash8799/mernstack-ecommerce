@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const UserProfile = () => {
+const UserProfile = ({setProgress}) => {
   const history = useHistory();
   const [name, setname] = useState('')
   const [fname, setfname] = useState('')
@@ -17,6 +17,7 @@ const UserProfile = () => {
   const [cpassword, csetpassword] = useState('')
   const [tokenval, settokenval] = useState(true)
   useEffect(() => {
+    setProgress(30)
     let token = localStorage.getItem("logintoken")
     if (!token) {
       history.push(`http://localhost:3006`)
@@ -62,7 +63,8 @@ const UserProfile = () => {
       }
       fun();
     }
-  }, [history])
+    setProgress(100)
+  }, [history, setProgress])
 
   const handleChange = (e) => {
     let name = e.target.name;

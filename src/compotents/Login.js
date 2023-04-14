@@ -17,14 +17,17 @@ import { CircularProgress } from '@mui/material';
 
 const url = `${process.env.REACT_APP_LOCALHOST_KEY}/api/auth/login`
 
-const Login = ()=> {
+const Login = ({setProgress})=> {
   const history = useHistory();
   const [isprogress,setprogress] = useState(false)
   useEffect(() => {
+    setProgress(30)
     if(localStorage.getItem("logintoken")){
       history.push('/', { replace: true });
     }
-  }, [history])
+    setProgress(70)
+    setProgress(100)
+  }, [history, setProgress])
   
   const handleSubmit = async(event) => {
     setprogress(true)

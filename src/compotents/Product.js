@@ -12,7 +12,7 @@ import Errorpage from "./404page";
 
 const url = `${process.env.REACT_APP_LOCALHOST_KEY}/api/shop/product`;
 
-const Product = () => {
+const Product = ({setProgress}) => {
   const history = useHistory()
   const product = useSelector((state)=>state.product)
   const allvariant = useSelector((state)=>state.fetchallvarints.allvariants)
@@ -25,9 +25,9 @@ const Product = () => {
   const [imgno,setimgno] = useState(0)
   const { slug } = useParams();
   useEffect(() => {
-   
     (async function () {
       try {
+        setProgress(30)
         setloader(true)
         const response = await fetch(url, {
           method: "POST",
@@ -38,21 +38,24 @@ const Product = () => {
             slug: slug,
           }),
         });
+        setProgress(70)
         const data = await response.json();
         dispatch(selectedProducts(data.data))
         dispatch(setallvariant(data.variants))
         setsizecolor(data.colorsizeSlug);
         setloader(false)
+        setProgress(100)
       } catch (error) {
         setloader(false)
         console.log(error);
+        setProgress(100)
       }
     })();
     return ()=>{
       dispatch(resetProducts())
       dispatch(resetallvariants())
     }
-  }, [dispatch, slug]);
+  }, [dispatch, setProgress, slug]);
 
   const BuyNowitem = async()=>{
     dispatch(removeFromcart())

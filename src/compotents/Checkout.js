@@ -14,7 +14,7 @@ import {
 import { useHistory } from "react-router-dom";
 const url = `${process.env.REACT_APP_LOCALHOST_KEY}/api/order/pincode`;
 
-const Checkout = () => {
+const Checkout = ({setProgress}) => {
   const history = useHistory()
   const cart = useSelector((state) => state.cart.cartitem);
   const dispatch = useDispatch();
@@ -119,9 +119,12 @@ const Checkout = () => {
   }
 }
   useEffect(() => {
+    setProgress(30)
     getuserdata()
+    setProgress(60)
     countprice();
-  }, [cart]);
+    setProgress(100)
+  }, [cart, setProgress]);
   const orderitems = async()=>{
     if(checkval){
         let res = await fetch(`${process.env.REACT_APP_LOCALHOST_KEY}/api/order/createorder`, {

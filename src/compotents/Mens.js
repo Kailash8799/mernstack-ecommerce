@@ -1,16 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setProducts } from "../redux/actions/productAction";
 import { Link } from "react-router-dom";
+import Loader from "./Loader";
 const url = `${process.env.REACT_APP_LOCALHOST_KEY}/api/shop/allproduct`;
 
-const Mens = () => {
+const Mens = ({setProgress}) => {
   const products = useSelector((state) => state.allProducts.products);
   const dispatch = useDispatch();
+  const [loader, setloader] = useState(false)
   useEffect(() => {
     (async function () {
       try {
+        setProgress(30)
+        setloader(true)
         const response = await fetch(url, {
           method: "POST",
           headers: {
@@ -20,16 +24,21 @@ const Mens = () => {
             gender: "Men",
           }),
         });
+        setProgress(70)
         const data = await response.json();
         dispatch(setProducts(data.data));
+        setloader(false)
+        setProgress(100)
       } catch (error) {
         console.log(error);
+        setloader(false)
+        setProgress(100)
       }
     })();
-  }, [dispatch]);
+  }, [dispatch, setProgress]);
 
-  return (
-    <div>
+  return (<>
+    {!loader && <div>
       {products && (
         <div>
           <section style={{ backgroundColor: "#eee" }}>
@@ -97,7 +106,9 @@ const Mens = () => {
           </section>
         </div>
       )}
-    </div>
+    </div>}
+    {loader && <Loader />}
+    </>
   );
 };
 

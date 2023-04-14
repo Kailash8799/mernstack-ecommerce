@@ -7,12 +7,14 @@ import { useDispatch,useSelector } from "react-redux";
 import { fetchmyorder } from "../redux/actions/productAction";
 import {BsArrowRight} from "react-icons/bs"
 
-const Myorder = () => {
+const Myorder = ({setProgress}) => {
   const myorders = useSelector((state)=>state.feorder.myorder)
   const dispatch = useDispatch()
   const history = useHistory();
   useEffect(() => {
+    setProgress(30)
     let token = localStorage.getItem("logintoken");
+    setProgress(60)
     if (!token) {
       history.push("/");
     } else {
@@ -49,7 +51,8 @@ const Myorder = () => {
         }
       })();
     }
-  }, [dispatch, history]);
+    setProgress(100)
+  }, [dispatch, history, setProgress]);
 
   return (
     <>
@@ -64,10 +67,10 @@ const Myorder = () => {
         draggable
         pauseOnHover
       />
-      <div className="overflow-x-auto md:mx-20 ">
-        <h1 className="my-5 text-3xl font-bold text-center text-black">
+       <h1 className="my-5 text-3xl font-bold text-center text-black">
           My Orders
         </h1>
+      <div className="overflow-x-auto md:mx-20 ">
         <table className="table mb-0 align-middle bg-white">
           <thead className="bg-light">
             <tr>

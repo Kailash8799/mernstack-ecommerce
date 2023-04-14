@@ -1,7 +1,8 @@
 import React from 'react'
+import { useEffect } from 'react';
 import { Carousel } from 'react-carousel-minimal';
 
-const Home = ()=>{
+const Home = ({setProgress})=>{
 
  const data = [
     {
@@ -54,6 +55,11 @@ const Home = ()=>{
     fontSize: '20px',
     fontWeight: 'bold',
   }
+  useEffect(() => {
+    setProgress(40)
+    setProgress(100)
+  }, [setProgress])
+  
   return (
     <>
     <div className="App">
