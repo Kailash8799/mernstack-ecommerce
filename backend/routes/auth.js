@@ -10,8 +10,7 @@ const JWT_SECRET = process.env.JWT_SECRET
 router.post("/login", async (req, res) => {
   try {
     if (req.method === "POST") {
-      const { email, password, cpassword } = req.body;
-      if (password === cpassword) {
+      const { email, password } = req.body;
         let ur = await User.findOne({ email: email });
         if (ur == null) {
           res
@@ -38,9 +37,7 @@ router.post("/login", async (req, res) => {
             });
           }
         }
-      } else {
-        res.status(400).json({ success: false, message: "Password not match" });
-      }
+       
     } else {
       res.status(400).json({ success: false, message: "Some error acccured!" });
     }
@@ -132,7 +129,7 @@ router.post("/updatepass", Authuser, async (req, res) => {
           );
           res
             .status(200)
-            .json({ success: true, message: "Password updated successfully!" });
+            .json({ success: true, message: "Password updated successfully!"});
         } else {
           res
             .status(400)

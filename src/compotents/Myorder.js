@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
@@ -6,16 +6,20 @@ import "react-toastify/dist/ReactToastify.css";
 import { useDispatch,useSelector } from "react-redux";
 import { fetchmyorder } from "../redux/actions/productAction";
 import {BsArrowRight} from "react-icons/bs"
+import Loader from "./Loader";
 
 const Myorder = ({setProgress}) => {
   const myorders = useSelector((state)=>state.feorder.myorder)
   const dispatch = useDispatch()
   const history = useHistory();
+  const [loader, setloader] = useState(false)
   useEffect(() => {
+    setloader(true)
     setProgress(30)
     let token = localStorage.getItem("logintoken");
     setProgress(60)
     if (!token) {
+      setloader(false)
       history.push("/");
     } else {
       (async function () {
@@ -46,8 +50,10 @@ const Myorder = ({setProgress}) => {
               progress: undefined,
             });
           }
+          setloader(false)
         } catch (error) {
           console.log(error);
+          setloader(false)
         }
       })();
     }
@@ -67,6 +73,8 @@ const Myorder = ({setProgress}) => {
         draggable
         pauseOnHover
       />
+    {!loader &&
+      <div>
        <h1 className="my-5 text-3xl font-bold text-center text-black">
           My Orders
         </h1>
@@ -130,6 +138,9 @@ const Myorder = ({setProgress}) => {
           </tbody>
         </table>
       </div>
+      </div>
+    }    
+      {loader && <Loader />}
     </>
   );
 };

@@ -36,7 +36,6 @@ const Login = ({setProgress})=> {
     const formdata = {
         email: data.get('email'),
         password: data.get('password'),
-        cpassword: data.get('cpassword'),
       }
     try {
         const config = {
@@ -142,16 +141,6 @@ const Login = ({setProgress})=> {
               type="password"
               id="password"
               autoComplete="current-password"
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="cpassword"
-              label="Confirm Password"
-              type="password"
-              id="cpassword"
-              autoComplete="current-cpassword"
             />
            
             <Button
