@@ -140,7 +140,7 @@ function Navbar({ loginp }) {
                 textDecoration: "none",
               }}
             >
-              <Link to={"/"}>LOGO</Link>
+              <Link to={"/"}>Kailash</Link>
             </Typography>
 
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
