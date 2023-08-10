@@ -140,7 +140,7 @@ function Navbar({ loginp }) {
                 textDecoration: "none",
               }}
             >
-              <Link to={"/"}>Shoppy</Link>
+              <Link to={"/"}>Shoppy by kailash</Link>
             </Typography>
 
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
